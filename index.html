@@ -146,7 +146,6 @@
     const initial = document.querySelector('[data-card="swild"]');
     if (initial) initial.classList.add("selected");
     parent.postMessage({ selectedTitle: "swild" }, "*");
-    console.log("🛰️ Enviando postMessage inicial: swild");
 
     buttons.forEach(btn => {
       btn.addEventListener("click", () => {
@@ -161,7 +160,6 @@
 
         // Envia para o Wix
         parent.postMessage({ selectedTitle: stateId }, "*");
-        console.log("🛰️ Enviando postMessagessss:", stateId);
       });
     });
   };
