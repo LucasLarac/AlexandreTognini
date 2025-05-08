@@ -28,6 +28,10 @@
       background: rgba(0, 0, 0, 0);
     }
 
+    .card.selected .overlay {
+      background: rgba(0, 0, 0, 0) !important;
+    }
+
     .card button {
       position: absolute;
       bottom: 30px;
@@ -71,37 +75,37 @@
     -ms-overflow-style: none;
   ">
 
-    <div class="card" style="background-image: url('https://static.wixstatic.com/media/929fcf_3008b8187f9545849f37d0e6925344a5~mv2.jpg');">
+    <div class="card" data-card="swild" style="background-image: url('https://static.wixstatic.com/media/929fcf_3008b8187f9545849f37d0e6925344a5~mv2.jpg');">
       <div class="overlay"></div>
       <button data-state="swild">Spirits of the Wild</button>
     </div>
 
-    <div class="card" style="background-image: url('https://static.wixstatic.com/media/929fcf_dc2da58800e4431ca1464926d5c1ec8d~mv2.jpg');">
+    <div class="card" data-card="pwin" style="background-image: url('https://static.wixstatic.com/media/929fcf_dc2da58800e4431ca1464926d5c1ec8d~mv2.jpg');">
       <div class="overlay"></div>
       <button data-state="pwin">Power in Nature</button>
     </div>
 
-    <div class="card" style="background-image: url('https://static.wixstatic.com/media/929fcf_2f493fff221f46018ba56c3f4b58feba~mv2.jpg');">
+    <div class="card" data-card="icav" style="background-image: url('https://static.wixstatic.com/media/929fcf_2f493fff221f46018ba56c3f4b58feba~mv2.jpg');">
       <div class="overlay"></div>
       <button data-state="icav">Abstrações no Gelo</button>
     </div>
 
-    <div class="card" style="background-image: url('https://static.wixstatic.com/media/929fcf_17c1cfe7ed0d4155b4f7a42735122c55~mv2.jpg');">
+    <div class="card" data-card="as" style="background-image: url('https://static.wixstatic.com/media/929fcf_17c1cfe7ed0d4155b4f7a42735122c55~mv2.jpg');">
       <div class="overlay"></div>
       <button data-state="as">Artic Skies</button>
     </div>
 
-    <div class="card" style="background-image: url('https://static.wixstatic.com/media/929fcf_bb23f9cddf0945879a3a6bd102eb1448~mv2.jpg');">
+    <div class="card" data-card="atls" style="background-image: url('https://static.wixstatic.com/media/929fcf_bb23f9cddf0945879a3a6bd102eb1448~mv2.jpg');">
       <div class="overlay"></div>
       <button data-state="atls">Atlântico Sul</button>
     </div>
 
-    <div class="card" style="background-image: url('https://static.wixstatic.com/media/929fcf_3bab68bcbac84955bf65ffdc308f671c~mv2.jpg');">
+    <div class="card" data-card="eves" style="background-image: url('https://static.wixstatic.com/media/929fcf_3bab68bcbac84955bf65ffdc308f671c~mv2.jpg');">
       <div class="overlay"></div>
       <button data-state="eves">Echoes of Vestfagtind</button>
     </div>
 
-    <div class="card" style="background-image: url('https://static.wixstatic.com/media/929fcf_faa3c7823c0c4137a45481f75f50171b~mv2.jpg');">
+    <div class="card" data-card="giants" style="background-image: url('https://static.wixstatic.com/media/929fcf_faa3c7823c0c4137a45481f75f50171b~mv2.jpg');">
       <div class="overlay"></div>
       <button data-state="giants">Gigantes do Fiorde</button>
     </div>
@@ -117,20 +121,33 @@
 
 <script>
   window.onload = () => {
-    // Envio inicial automático do primeiro item
+    const buttons = document.querySelectorAll(".card button");
+    const cards = document.querySelectorAll(".card");
+
+    // Aplica seleção inicial em 'swild'
+    const initial = document.querySelector('[data-card="swild"]');
+    if (initial) initial.classList.add("selected");
     parent.postMessage({ selectedTitle: "swild" }, "*");
     console.log("🛰️ Enviando postMessage inicial: swild");
 
-    const buttons = document.querySelectorAll(".card button");
     buttons.forEach(btn => {
       btn.addEventListener("click", () => {
         const stateId = btn.dataset.state;
+
+        // Remove seleção de todos
+        cards.forEach(card => card.classList.remove("selected"));
+
+        // Adiciona no card atual
+        const selectedCard = btn.closest(".card");
+        if (selectedCard) selectedCard.classList.add("selected");
+
+        // Envia para o Wix
         parent.postMessage({ selectedTitle: stateId }, "*");
+        console.log("🛰️ Enviando postMessagessss:", stateId);
       });
     });
   };
 </script>
-
 
 </body>
 </html>
