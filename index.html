@@ -117,16 +117,20 @@
 
 <script>
   window.onload = () => {
+    // Envio inicial automático do primeiro item
+    parent.postMessage({ selectedTitle: "swild" }, "*");
+    console.log("🛰️ Enviando postMessage inicial: swild");
+
     const buttons = document.querySelectorAll(".card button");
     buttons.forEach(btn => {
       btn.addEventListener("click", () => {
         const stateId = btn.dataset.state;
-        console.log("🛰️ Enviando postMessage:", stateId);
         parent.postMessage({ selectedTitle: stateId }, "*");
       });
     });
   };
 </script>
+
 
 </body>
 </html>
