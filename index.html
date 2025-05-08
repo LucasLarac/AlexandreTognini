@@ -1,50 +1,57 @@
-<style>
-  .card {
-    display: inline-block;
-    width: 228px;
-    height: 160px;
-    margin-right: 10px;
-    background-size: cover;
-    background-position: center;
-    position: relative;
-    overflow: hidden;
-  }
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Carrossel Alexandre Tognini</title>
+  <style>
+    .card {
+      display: inline-block;
+      width: 228px;
+      height: 160px;
+      margin-right: 10px;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      overflow: hidden;
+    }
 
-  .overlay {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    transition: background 0.3s ease;
-    z-index: 1;
-  }
+    .overlay {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      transition: background 0.3s ease;
+      z-index: 1;
+    }
 
-  .card:hover .overlay {
-    background: rgba(0, 0, 0, 0);
-  }
+    .card:hover .overlay {
+      background: rgba(0, 0, 0, 0);
+    }
 
-  .card button {
-    position: absolute;
-    bottom: 30px;
-    width:85%;
-    height:31px;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 6px 10px;
-    background: transparent;
-    color: white;
-    border: 2px solid white;
-    cursor: pointer;
-    font-size: 12px;
-    font-family: 'Futura PT Heavy', sans-serif;
-    text-transform: uppercase;
-    z-index: 2;
-  }
+    .card button {
+      position: absolute;
+      bottom: 30px;
+      width: 85%;
+      height: 31px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 6px 10px;
+      background: transparent;
+      color: white;
+      border: 2px solid white;
+      cursor: pointer;
+      font-size: 12px;
+      font-family: 'Futura PT Heavy', sans-serif;
+      text-transform: uppercase;
+      z-index: 2;
+    }
 
-  #scrollWrapper::-webkit-scrollbar {
-    display: none;
-  }
-</style>
+    #scrollWrapper::-webkit-scrollbar {
+      display: none;
+    }
+  </style>
+</head>
+<body>
 
 <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
   <!-- Botão Esquerdo -->
@@ -66,40 +73,41 @@
 
     <div class="card" style="background-image: url('https://static.wixstatic.com/media/929fcf_3008b8187f9545849f37d0e6925344a5~mv2.jpg');">
       <div class="overlay"></div>
-      <button onclick="selectItem('swild')">Spirits of the Wild</button>
+      <button data-state="swild">Spirits of the Wild</button>
     </div>
 
     <div class="card" style="background-image: url('https://static.wixstatic.com/media/929fcf_dc2da58800e4431ca1464926d5c1ec8d~mv2.jpg');">
       <div class="overlay"></div>
-      <button onclick="selectItem('pwin')">Power in Nature</button>
+      <button data-state="pwin">Power in Nature</button>
     </div>
 
     <div class="card" style="background-image: url('https://static.wixstatic.com/media/929fcf_2f493fff221f46018ba56c3f4b58feba~mv2.jpg');">
       <div class="overlay"></div>
-      <button onclick="selectItem('icav')">Abstrações no Gelo</button>
+      <button data-state="icav">Abstrações no Gelo</button>
     </div>
 
     <div class="card" style="background-image: url('https://static.wixstatic.com/media/929fcf_17c1cfe7ed0d4155b4f7a42735122c55~mv2.jpg');">
       <div class="overlay"></div>
-      <button onclick="selectItem('as')">Artic Skies</button>
+      <button data-state="as">Artic Skies</button>
     </div>
 
     <div class="card" style="background-image: url('https://static.wixstatic.com/media/929fcf_bb23f9cddf0945879a3a6bd102eb1448~mv2.jpg');">
       <div class="overlay"></div>
-      <button onclick="selectItem('atls')">Atlântico Sul</button>
+      <button data-state="atls">Atlântico Sul</button>
     </div>
 
     <div class="card" style="background-image: url('https://static.wixstatic.com/media/929fcf_3bab68bcbac84955bf65ffdc308f671c~mv2.jpg');">
       <div class="overlay"></div>
-      <button onclick="selectItem('eves')">Echoes of Vestfagtind</button>
+      <button data-state="eves">Echoes of Vestfagtind</button>
     </div>
 
     <div class="card" style="background-image: url('https://static.wixstatic.com/media/929fcf_faa3c7823c0c4137a45481f75f50171b~mv2.jpg');">
       <div class="overlay"></div>
-      <button onclick="selectItem('giants')">Gigantes do Fiorde</button>
+      <button data-state="giants">Gigantes do Fiorde</button>
     </div>
 
   </div>
+
   <!-- Botão Direito -->
   <button onclick="document.getElementById('scrollWrapper').scrollBy({left: 250, behavior: 'smooth'})"
     style="background: black; color: white; border: none; border-radius: 50%; width: 50px; height: 50px; cursor: pointer;">
@@ -112,10 +120,7 @@
     const buttons = document.querySelectorAll(".card button");
     buttons.forEach(btn => {
       btn.addEventListener("click", () => {
-        const stateId = btn.getAttribute("onclick")?.includes("selectItem")
-          ? btn.getAttribute("onclick").match(/'([^']+)'/)[1]
-          : btn.innerText.toLowerCase().replace(/\s/g, '');
-
+        const stateId = btn.dataset.state;
         console.log("🛰️ Enviando postMessage:", stateId);
         parent.postMessage({ selectedTitle: stateId }, "*");
       });
@@ -123,4 +128,5 @@
   };
 </script>
 
-
+</body>
+</html>
