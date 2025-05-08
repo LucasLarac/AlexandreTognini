@@ -1,184 +1,192 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Carrossel Alexandre Tognini</title>
   <style>
-    .card {
-      display: inline-block;
-      width: 228px;
-      height: 160px;
-      margin-right: 10px;
-      background-size: cover;
-      background-position: center;
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+    #carouselContainer {
       position: relative;
-      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 0;
     }
-
-    .overlay {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.677);
-      transition: background 0.3s ease;
-      z-index: 1;
+    #scrollWrapper {
+      display: flex;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      scroll-snap-type: x mandatory;
+      gap: 10px;
+      width: 100%;
+      max-width: 1000px;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
     }
-
-    .card:hover .overlay {
-      background: rgba(0, 0, 0, 0);
-    }
-
-    .card.selected .overlay {
-      background: rgba(0, 0, 0, 0) !important;
-    }
-
-    .card button {
-      position: absolute;
-      bottom: 30px;
-      width: 85%;
-      height: 31px;
-      left: 50%;
-      transform: translateX(-50%);
-      padding: 6px 10px;
-      background: transparent;
-      color: white;
-      border: 2px solid white;
-      cursor: pointer;
-      font-size: 12px;
-      font-family: 'Futura PT Heavy', sans-serif;
-      text-transform: uppercase;
-      z-index: 2;
-    }
-
     #scrollWrapper::-webkit-scrollbar {
       display: none;
     }
-
+    .card {
+      position: relative;
+      flex: 0 0 calc((100% - 30px) / 4);
+      height: 160px;
+      background-size: cover;
+      background-position: center;
+      scroll-snap-align: start;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .card .overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      transition: background 0.3s;
+    }
+    .card:hover .overlay,
+    .card.selected .overlay {
+      background: transparent !important;
+    }
+    .card button {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80%;
+      padding: 8px;
+      background: rgba(255,255,255,0.2);
+      color: #fff;
+      border: 2px solid #fff;
+      border-radius: 4px;
+      font-size: 12px;
+      text-transform: uppercase;
+      cursor: pointer;
+      z-index: 2;
+    }
+    .arrow-button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 40px;
+      height: 40px;
+      background: rgba(255,255,255,0.8);
+      border: none;
+      border-radius: 50%;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 10;
+    }
+    .arrow-button.hidden {
+      display: none;
+    }
+    #arrowLeft { left: 10px; }
+    #arrowRight { right: 10px; }
     .arrow {
-    width: 0;
-    height: 0;
-    border-top: 16px solid transparent;
-    border-bottom: 16px solid transparent;
-    cursor: pointer;
-  }
+      width: 0;
+      height: 0;
+      border: solid black;
+      border-width: 0 3px 3px 0;
+      display: inline-block;
+      padding: 7px;
+    }
+    .left  { transform: rotate(135deg); }
+    .right { transform: rotate(-45deg); }
 
-  .arrow-button {
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-}
-
-
-  .arrow.right {
-    border-left: 16px solid black;
-  }
-
-  .arrow.left {
-    border-right: 16px solid black;
-  }
-
+    @media (max-width: 768px) {
+      .card {
+        flex: 0 0 100%;
+      }
+      #scrollWrapper {
+        max-width: 100vw;
+      }
+    }
   </style>
 </head>
 <body>
-
-<div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
-  <!-- Botão Esquerdo -->
-  <button onclick="document.getElementById('scrollWrapper').scrollBy({left: -228, behavior: 'smooth'})"
-    style="background: transparent; color: black; border: none; border-radius: 50%; width: 40; height: 40; cursor: pointer; font-size: 30px">
-    <div class="arrow left"></div>
-  </button>
-
-  <!-- Carrossel -->
-  <div id="scrollWrapper" style="
-    width: 100%;
-    max-width: 1000px;
-    overflow-x: auto;
-    white-space: nowrap;
-    scroll-behavior: smooth;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  ">
-
-    <div class="card" data-card="swild" style="background-image: url('https://static.wixstatic.com/media/929fcf_3008b8187f9545849f37d0e6925344a5~mv2.jpg');">
-      <div class="overlay"></div>
-      <button data-state="swild">Spirits of the Wild</button>
+  <div id="carouselContainer">
+    <button id="arrowLeft" class="arrow-button hidden" onclick="scrollByCard(-1)">
+      <i class="arrow left"></i>
+    </button>
+    <div id="scrollWrapper">
+      <div class="card" data-card="swild" style="background-image:url('https://static.wixstatic.com/media/929fcf_3008b8187f9545849f37d0e6925344a5~mv2.jpg')">
+        <div class="overlay"></div>
+        <button data-state="swild">Spirits of the Wild</button>
+      </div>
+      <div class="card" data-card="pwin" style="background-image:url('https://static.wixstatic.com/media/929fcf_dc2da58800e4431ca1464926d5c1ec8d~mv2.jpg')">
+        <div class="overlay"></div>
+        <button data-state="pwin">Power in Nature</button>
+      </div>
+      <div class="card" data-card="icav" style="background-image:url('https://static.wixstatic.com/media/929fcf_2f493fff221f46018ba56c3f4b58feba~mv2.jpg')">
+        <div class="overlay"></div>
+        <button data-state="icav">Abstrações no Gelo</button>
+      </div>
+      <div class="card" data-card="as" style="background-image:url('https://static.wixstatic.com/media/929fcf_17c1cfe7ed0d4155b4f7a42735122c55~mv2.jpg')">
+        <div class="overlay"></div>
+        <button data-state="as">Artic Skies</button>
+      </div>
+      <div class="card" data-card="atls" style="background-image:url('https://static.wixstatic.com/media/929fcf_bb23f9cddf0945879a3a6bd102eb1448~mv2.jpg')">
+        <div class="overlay"></div>
+        <button data-state="atls">Atlântico Sul</button>
+      </div>
+      <div class="card" data-card="eves" style="background-image:url('https://static.wixstatic.com/media/929fcf_3bab68bcbac84955bf65ffdc308f671c~mv2.jpg')">
+        <div class="overlay"></div>
+        <button data-state="eves">Echoes of Vestfagtind</button>
+      </div>
+      <div class="card" data-card="giants" style="background-image:url('https://static.wixstatic.com/media/929fcf_faa3c7823c0c4137a45481f75f50171b~mv2.jpg')">
+        <div class="overlay"></div>
+        <button data-state="giants">Gigantes do Fiorde</button>
+      </div>
     </div>
-
-    <div class="card" data-card="pwin" style="background-image: url('https://static.wixstatic.com/media/929fcf_dc2da58800e4431ca1464926d5c1ec8d~mv2.jpg');">
-      <div class="overlay"></div>
-      <button data-state="pwin">Power in Nature</button>
-    </div>
-
-    <div class="card" data-card="icav" style="background-image: url('https://static.wixstatic.com/media/929fcf_2f493fff221f46018ba56c3f4b58feba~mv2.jpg');">
-      <div class="overlay"></div>
-      <button data-state="icav">Abstrações no Gelo</button>
-    </div>
-
-    <div class="card" data-card="as" style="background-image: url('https://static.wixstatic.com/media/929fcf_17c1cfe7ed0d4155b4f7a42735122c55~mv2.jpg');">
-      <div class="overlay"></div>
-      <button data-state="as">Artic Skies</button>
-    </div>
-
-    <div class="card" data-card="atls" style="background-image: url('https://static.wixstatic.com/media/929fcf_bb23f9cddf0945879a3a6bd102eb1448~mv2.jpg');">
-      <div class="overlay"></div>
-      <button data-state="atls">Atlântico Sul</button>
-    </div>
-
-    <div class="card" data-card="eves" style="background-image: url('https://static.wixstatic.com/media/929fcf_3bab68bcbac84955bf65ffdc308f671c~mv2.jpg');">
-      <div class="overlay"></div>
-      <button data-state="eves">Echoes of Vestfagtind</button>
-    </div>
-
-    <div class="card" data-card="giants" style="background-image: url('https://static.wixstatic.com/media/929fcf_faa3c7823c0c4137a45481f75f50171b~mv2.jpg');">
-      <div class="overlay"></div>
-      <button data-state="giants">Gigantes do Fiorde</button>
-    </div>
-
+    <button id="arrowRight" class="arrow-button" onclick="scrollByCard(1)">
+      <i class="arrow right"></i>
+    </button>
   </div>
 
-  <!-- Botão Direito -->
-  <button onclick="document.getElementById('scrollWrapper').scrollBy({left: 228, behavior: 'smooth'})"
-    style="background: transparent; color: black; border: none; border-radius: 50%; width: 40; height: 40; cursor: pointer; font-size: 30px">
-    <div class="arrow right"></div>
-  </button>
-</div>
+  <script>
+    const scrollWrapper = document.getElementById("scrollWrapper");
+    const cards = Array.from(document.querySelectorAll(".card"));
+    const leftBtn = document.getElementById("arrowLeft");
+    const rightBtn = document.getElementById("arrowRight");
+    const GAP = 10; // px, deve bater com o gap do CSS
 
-</div>
+    function scrollByCard(direction) {
+      const cardWidth = cards[0].getBoundingClientRect().width + GAP;
+      scrollWrapper.scrollBy({ left: cardWidth * direction, behavior: "smooth" });
+    }
 
-<script>
-  window.onload = () => {
-    const buttons = document.querySelectorAll(".card button");
-    const cards = document.querySelectorAll(".card");
+    function updateArrows() {
+      const cardWidth = cards[0].getBoundingClientRect().width + GAP;
+      const scrollLeft = scrollWrapper.scrollLeft;
+      const visibleCount = window.innerWidth <= 768 ? 1 : 4;
+      const index = Math.round(scrollLeft / cardWidth);
+      const maxIndex = cards.length - visibleCount;
 
-    // Aplica seleção inicial em 'swild'
-    const initial = document.querySelector('[data-card="swild"]');
-    if (initial) initial.classList.add("selected");
-    parent.postMessage({ selectedTitle: "swild" }, "*");
-    console.log("🛰️ Enviando postMessage inicial: swild");
+      leftBtn.classList.toggle("hidden", index <= 0);
+      rightBtn.classList.toggle("hidden", index >= maxIndex);
+    }
 
-    buttons.forEach(btn => {
+    window.addEventListener("load", () => {
+      cards[0].classList.add("selected");
+      updateArrows();
+      scrollWrapper.addEventListener("scroll", updateArrows);
+    });
+    window.addEventListener("resize", updateArrows);
+
+    // clique nos botões dos cards
+    document.querySelectorAll(".card button").forEach(btn => {
       btn.addEventListener("click", () => {
-        const stateId = btn.dataset.state;
-
-        // Remove seleção de todos
-        cards.forEach(card => card.classList.remove("selected"));
-
-        // Adiciona no card atual
-        const selectedCard = btn.closest(".card");
-        if (selectedCard) selectedCard.classList.add("selected");
-
-        // Envia para o Wix
-        parent.postMessage({ selectedTitle: stateId }, "*");
-        console.log("🛰️ Enviando postMessagessss:", stateId);
+        cards.forEach(c => c.classList.remove("selected"));
+        const card = btn.closest(".card");
+        card.classList.add("selected");
+        parent.postMessage({ selectedTitle: btn.dataset.state }, "*");
       });
     });
-  };
-</script>
-
+  </script>
 </body>
 </html>
