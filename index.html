@@ -108,9 +108,19 @@
 </div>
 
 <script>
-  function selectItem(title) {
-    console.log("Item clicado no iframe:", title); // 👈 Aqui adicionamos o log
-    window.parent.postMessage({ selectedTitle: title }, "*");
-  }
+  window.onload = () => {
+    const buttons = document.querySelectorAll(".card button");
+    buttons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        const stateId = btn.getAttribute("onclick")?.includes("selectItem")
+          ? btn.getAttribute("onclick").match(/'([^']+)'/)[1]
+          : btn.innerText.toLowerCase().replace(/\s/g, '');
+
+        console.log("🛰️ Enviando postMessage:", stateId);
+        parent.postMessage({ selectedTitle: stateId }, "*");
+      });
+    });
+  };
 </script>
+
 
