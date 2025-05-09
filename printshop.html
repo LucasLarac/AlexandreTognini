@@ -1,192 +1,71 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <title>Carrossel Alexandre Tognini</title>
-  <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      overflow-x: hidden;
-      font-family: sans-serif;
-    }
-    #carouselContainer {
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px 0;
-    }
-    #scrollWrapper {
-      display: flex;
-      overflow-x: auto;
-      scroll-behavior: smooth;
-      scroll-snap-type: x mandatory;
-      gap: 10px;
-      width: 100%;
-      max-width: 1000px;
-      padding-bottom: 20px;
-    }
-    #scrollWrapper::-webkit-scrollbar {
-      display: none;
-    }
-    .card {
-      flex: 0 0 calc((100% - 30px) / 4);
-      scroll-snap-align: start;
-      border-radius: 8px;
-      overflow: hidden;
-      background: #f5f5f5;
-    }
-    .card img {
-      display: block;
-      width: 100%;
-      height: auto;
-    }
-    .caption {
-      text-align: center;
-      padding: 8px;
-      text-transform: uppercase;
-      font-weight: bold;
-      font-size: 14px;
-      background: #fff;
-    }
-    .arrow-button {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 32px;
-      height: 32px;
-      background: rgba(0,0,0,0.2);
-      border: none;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      z-index: 10;
-    }
-    .arrow-button.hidden {
-      display: none;
-    }
-    #arrowLeft { left: 10px; }
-    #arrowRight { right: 10px; }
-    .arrow {
-      width: 0;
-      height: 0;
-      border: solid white;
-      border-width: 0 3px 3px 0;
-      display: inline-block;
-      padding: 5px;
-    }
-    .left  { transform: rotate(135deg); }
-    .right { transform: rotate(-45deg); }
-
-    @media (max-width: 768px) {
-      .card {
-        flex: 0 0 80%;
-      }
-    }
-  </style>
-</head>
-<body>
-
-  <div id="carouselContainer">
-    <button id="arrowLeft" class="arrow-button hidden" onclick="scrollByCard(-1)">
-      <i class="arrow left"></i>
-    </button>
-
-    <div id="scrollWrapper">
-  <div class="card">
-    <a href="https://www.alexandretognini.com//category/ice-caves">
-      <img src="https://static.wixstatic.com/media/929fcf_2f493fff221f46018ba56c3f4b58feba~mv2.jpg" alt="ICE CAVES">
-    </a>
+<div id="scrollWrapper">
+  <!-- ICE CAVES -->
+  <div class="card" data-path="/category/ice-caves">
+    <img src="https://static.wixstatic.com/media/929fcf_2f493fff221f46018ba56c3f4b58feba~mv2.jpg" alt="ICE CAVES">
     <div class="caption">ICE CAVES</div>
   </div>
 
-  <div class="card">
-    <a href="https://www.alexandretognini.com//category/power-in-nature">
-      <img src="https://static.wixstatic.com/media/929fcf_dc2da58800e4431ca1464926d5c1ec8d~mv2.jpg" alt="POWER IN NATURE">
-    </a>
-    <div class="caption">POWER IN NATURE</div>
-  </div>
-
-  <div class="card">
-    <a href="https://www.alexandretognini.com//category/ice-caves">
-      <img src="https://static.wixstatic.com/media/929fcf_2f493fff221f46018ba56c3f4b58feba~mv2.jpg" alt="ABSTRAÇÕES NO GELO">
-    </a>
-    <div class="caption">ABSTRAÇÕES NO GELO</div>
-  </div>
-
-  <div class="card">
-    <a href="https://www.alexandretognini.com//category/artic-skies">
-      <img src="https://static.wixstatic.com/media/929fcf_17c1cfe7ed0d4155b4f7a42735122c55~mv2.jpg" alt="ARTIC SKIES">
-    </a>
+  <!-- ARTIC SKIES -->
+  <div class="card" data-path="/category/artic-skies">
+    <img src="https://static.wixstatic.com/media/929fcf_17c1cfe7ed0d4155b4f7a42735122c55~mv2.jpg" alt="ARTIC SKIES">
     <div class="caption">ARTIC SKIES</div>
   </div>
 
-  <div class="card">
-    <a href="https://www.alexandretognini.com//category/antântico-sul">
+    <!-- ANTÁRTICO SUL -->
+    <div class="card" data-path="/category/antântico-sul">
       <img src="https://static.wixstatic.com/media/929fcf_bb23f9cddf0945879a3a6bd102eb1448~mv2.jpg" alt="ANTÁRTICO SUL">
-    </a>
-    <div class="caption">ANTÁRTICO SUL</div>
-  </div>
-
-  <div class="card">
-    <a href="https://www.alexandretognini.com//category/echoes-of-vestfagtind">
+      <div class="caption">ANTÁRTICO SUL</div>
+    </div>
+  
+    <!-- ECHOES OF VESTFAGTIND -->
+    <div class="card" data-path="/category/echoes-of-vestfagtind">
       <img src="https://static.wixstatic.com/media/929fcf_3bab68bcbac84955bf65ffdc308f671c~mv2.jpg" alt="ECHOES OF VESTFAGTIND">
-    </a>
-    <div class="caption">ECHOES OF VESTFAGTIND</div>
-  </div>
-
-  <div class="card">
-    <a href="https://www.alexandretognini.com//category/giants-of-the-fjord">
+      <div class="caption">ECHOES OF VESTFAGTIND</div>
+    </div>
+  
+    <!-- GIANTS OF THE FJORD -->
+    <div class="card" data-path="/category/giants-of-the-fjord">
       <img src="https://static.wixstatic.com/media/929fcf_faa3c7823c0c4137a45481f75f50171b~mv2.jpg" alt="GIANTS OF THE FJORD">
-    </a>
-    <div class="caption">GIANTS OF THE FJORD</div>
-  </div>
-
-  <div class="card">
-    <a href="https://www.alexandretognini.com//category/spirits-of-the-wild">
+      <div class="caption">GIANTS OF THE FJORD</div>
+    </div>
+  
+    <!-- POWER IN NATURE -->
+    <div class="card" data-path="/category/power-in-nature">
+      <img src="https://static.wixstatic.com/media/929fcf_dc2da58800e4431ca1464926d5c1ec8d~mv2.jpg" alt="POWER IN NATURE">
+      <div class="caption">POWER IN NATURE</div>
+    </div>
+  
+    <!-- SPIRITS OF THE WILD -->
+    <div class="card" data-path="/category/spirits-of-the-wild">
       <img src="https://static.wixstatic.com/media/929fcf_3008b8187f9545849f37d0e6925344a5~mv2.jpg" alt="SPIRITS OF THE WILD">
-    </a>
-    <div class="caption">SPIRITS OF THE WILD</div>
-  </div>
+      <div class="caption">SPIRITS OF THE WILD</div>
+    </div>
+  
 </div>
 
+<script>
+  const scrollWrapper = document.getElementById("scrollWrapper");
+  const cards        = Array.from(document.querySelectorAll(".card"));
+  const leftBtn      = document.getElementById("arrowLeft");
+  const rightBtn     = document.getElementById("arrowRight");
+  const GAP          = 10;
 
-    <button id="arrowRight" class="arrow-button" onclick="scrollByCard(1)">
-      <i class="arrow right"></i>
-    </button>
-  </div>
+  function scrollByCard(direction) { /* …igual antes… */ }
+  function updateArrows() { /* …igual antes… */ }
 
-  <script>
-    const scrollWrapper = document.getElementById("scrollWrapper");
-    const cards        = Array.from(document.querySelectorAll(".card"));
-    const leftBtn      = document.getElementById("arrowLeft");
-    const rightBtn     = document.getElementById("arrowRight");
-    const GAP          = 10;
+  window.addEventListener("load", () => {
+    updateArrows();
+    scrollWrapper.addEventListener("scroll", updateArrows);
+  });
+  window.addEventListener("resize", updateArrows);
 
-    function scrollByCard(direction) {
-      const cardWidth = cards[0].getBoundingClientRect().width + GAP;
-      scrollWrapper.scrollBy({ left: cardWidth * direction, behavior: "smooth" });
-    }
-
-    function updateArrows() {
-      const cardWidth   = cards[0].getBoundingClientRect().width + GAP;
-      const scrollLeft  = scrollWrapper.scrollLeft;
-      const visibleCount= window.innerWidth <= 768 ? 1 : 4;
-      const index       = Math.round(scrollLeft / cardWidth);
-      const maxIndex    = cards.length - visibleCount;
-
-      leftBtn.classList.toggle("hidden", index <= 0);
-      rightBtn.classList.toggle("hidden", index >= maxIndex);
-    }
-
-    window.addEventListener("load", () => {
-      updateArrows();
-      scrollWrapper.addEventListener("scroll", updateArrows);
+  // aqui emitimos a mensagem pro Wix
+  cards.forEach(card => {
+    card.addEventListener("click", () => {
+      const path = card.dataset.path;
+      if (path) {
+        parent.postMessage({ navigate: path }, "*");
+      }
     });
-    window.addEventListener("resize", updateArrows);
-  </script>
-</body>
-</html>
+  });
+</script>
