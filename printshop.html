@@ -97,7 +97,7 @@
 
     @media (max-width: 768px) {
       .card {
-        flex: 0 0 200px;
+        flex: 0 0 100%;
       }
       #scrollWrapper {
         max-width: 100vw;
@@ -161,47 +161,53 @@
     </button>
   </div>
 
-  <script>
-    const scrollWrapper = document.getElementById("scrollWrapper");
-    const cards         = Array.from(document.querySelectorAll(".card"));
-    const leftBtn       = document.getElementById("arrowLeft");
-    const rightBtn      = document.getElementById("arrowRight");
-    const GAP           = 10;
+ <script>
+  const scrollWrapper = document.getElementById("scrollWrapper");
+  const cards         = Array.from(document.querySelectorAll(".card"));
+  const leftBtn       = document.getElementById("arrowLeft");
+  const rightBtn      = document.getElementById("arrowRight");
+  const GAP           = 10;
 
-    function scrollByCard(direction) {
-      const cardWidth = cards[0].getBoundingClientRect().width + GAP;
-      scrollWrapper.scrollBy({ left: cardWidth * direction, behavior: 'smooth' });
-    }
+  function scrollByCard(direction) {
+    // no desktop rola cardWidth+GAP, no mobile rola exatamente o width visível
+    const step = window.innerWidth <= 768
+      ? scrollWrapper.clientWidth
+      : cards[0].getBoundingClientRect().width + GAP;
 
-    function updateArrows() {
-      const cardWidth   = cards[0].getBoundingClientRect().width + GAP;
-      const scrollLeft  = scrollWrapper.scrollLeft;
-      const visibleCount= window.innerWidth <= 768 ? 1 : 4;
-      const index       = Math.round(scrollLeft / cardWidth);
-      const maxIndex    = cards.length - visibleCount;
-      leftBtn.classList.toggle('hidden', index <= 0);
-      rightBtn.classList.toggle('hidden', index >= maxIndex);
-    }
+    scrollWrapper.scrollBy({ left: step * direction, behavior: 'smooth' });
+  }
 
-    window.addEventListener('load', () => {
-      // marca o primeiro como selecionado
-      cards[0].classList.add('selected');
-      updateArrows();
-      scrollWrapper.addEventListener('scroll', updateArrows);
+  function updateArrows() {
+    // mesmo cálculo de antes, mas visibleCount=1 no mobile garante esconder as setas
+    const step = window.innerWidth <= 768
+      ? scrollWrapper.clientWidth
+      : cards[0].getBoundingClientRect().width + GAP;
+
+    const index = Math.round(scrollWrapper.scrollLeft / step);
+    const maxIndex = cards.length - (window.innerWidth <= 768 ? 1 : 4);
+
+    leftBtn.classList.toggle('hidden', index <= 0);
+    rightBtn.classList.toggle('hidden', index >= maxIndex);
+  }
+
+  window.addEventListener('load', () => {
+    cards[0].classList.add('selected');
+    updateArrows();
+    scrollWrapper.addEventListener('scroll', updateArrows);
+  });
+  window.addEventListener('resize', updateArrows);
+
+  cards.forEach(card => {
+    card.addEventListener('click', () => {
+      // marca visualmente
+      cards.forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      // dispara para o Wix
+      const path = card.dataset.path;
+      if (path) parent.postMessage({ navigate: path }, '*');
     });
-    window.addEventListener('resize', updateArrows);
+  });
+</script>
 
-    // clique no card dispara postMessage pro Wix
-    cards.forEach(card => {
-      card.addEventListener('click', () => {
-        // visual
-        cards.forEach(c => c.classList.remove('selected'));
-        card.classList.add('selected');
-        // evento
-        const path = card.dataset.path;
-        if (path) parent.postMessage({ navigate: path }, '*');
-      });
-    });
-  </script>
 </body>
 </html>
