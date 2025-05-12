@@ -102,7 +102,7 @@
     display: none;
   }
 
-  /* 2) Faz o container principal ficar em coluna */
+  /* 2) Container em coluna, mas a listagem vira flex-wrap */
   #carouselContainer {
     display: flex;
     flex-direction: column;
@@ -110,23 +110,39 @@
     padding: 0;
   }
 
-  /* 3) Remove o scroll horizontal e o snap */
+  /* 3) Flex-wrap para mostrar todos sem overflow */
   #scrollWrapper {
-    display: block;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* opcional: centraliza na horizontal */
+    gap: 20px 10px;          /* 20px vertical, 10px horizontal */
     overflow: visible;
-    scroll-snap-type: none;
     max-width: 100%;
-    width: 100%;
     padding: 20px 0;
   }
 
-  /* 4) Cada “card” vira um bloco full-width com espaçamento de 40px */
+  /* 4) Cada “botão” menor, dois por linha, altura reduzida */
   .card {
-    flex: none;        /* anula o flex */
-    width: 100%;       /* ocupa toda largura */
-    margin-bottom: 40px;
+    flex: none;
+    width: calc(50% - 10px); /* dois por fileira */
+    height: 120px;            /* reduz a altura */
+    margin-bottom: 20px;
+    border-radius: 6px;
+  }
+
+  /* 5) Ajuste do caption para ficar dentro do card, se quiser */
+  .caption {
+    position: static;
+    margin-top: 8px;
+    color: #333;           /* se preferir texto escuro */
+    background: none;
+    text-transform: none;
+    font-size: 12px;
+    text-align: center;
   }
 }
+
+
 
   </style>
 </head>
