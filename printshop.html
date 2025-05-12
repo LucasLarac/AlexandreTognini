@@ -96,13 +96,13 @@
     .right { transform: rotate(-45deg); }
 
     @media (max-width: 768px) {
-  /* 1) Esconde as setas */
+  /* 1) Oculta as setas */
   #arrowLeft,
   #arrowRight {
     display: none;
   }
 
-  /* 2) Container em coluna, mas a listagem vira flex-wrap */
+  /* 2) Container passa a empilhar */
   #carouselContainer {
     display: flex;
     flex-direction: column;
@@ -110,36 +110,43 @@
     padding: 0;
   }
 
-  /* 3) Flex-wrap para mostrar todos sem overflow */
+  /* 3) Remove scroll e exibe um por linha */
   #scrollWrapper {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center; /* opcional: centraliza na horizontal */
-    gap: 20px 10px;          /* 20px vertical, 10px horizontal */
+    display: block;
     overflow: visible;
     max-width: 100%;
+    width: 100%;
     padding: 20px 0;
   }
 
-  /* 4) Cada “botão” menor, dois por linha, altura reduzida */
+  /* 4) Cada “botão” ocupa 100% da largura, 45px de altura */
   .card {
-    flex: none;
-    width: calc(50% - 10px); /* dois por fileira */
-    height: 120px;            /* reduz a altura */
+    width: 100%;
+    height: 45px;
     margin-bottom: 20px;
-    border-radius: 6px;
+    border-radius: 4px;
+    flex: none;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
   }
 
-  /* 5) Ajuste do caption para ficar dentro do card, se quiser */
+  /* 5) Texto centralizado, branco */
   .caption {
-    position: static;
-    margin-top: 8px;
-    color: #333;           /* se preferir texto escuro */
-    background: none;
-    text-transform: none;
-    font-size: 12px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin: 0;
+    width: 100%;
     text-align: center;
+    z-index: 1;
   }
+
 }
 
 
