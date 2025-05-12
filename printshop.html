@@ -96,13 +96,38 @@
     .right { transform: rotate(-45deg); }
 
     @media (max-width: 768px) {
-      .card {
-        flex: 0 0 100%;
-      }
-      #scrollWrapper {
-        max-width: 100vw;
-      }
-    }
+  /* 1) Esconde as setas */
+  #arrowLeft,
+  #arrowRight {
+    display: none;
+  }
+
+  /* 2) Faz o container principal ficar em coluna */
+  #carouselContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0;
+  }
+
+  /* 3) Remove o scroll horizontal e o snap */
+  #scrollWrapper {
+    display: block;
+    overflow: visible;
+    scroll-snap-type: none;
+    max-width: 100%;
+    width: 100%;
+    padding: 20px 0;
+  }
+
+  /* 4) Cada “card” vira um bloco full-width com espaçamento de 40px */
+  .card {
+    flex: none;        /* anula o flex */
+    width: 100%;       /* ocupa toda largura */
+    margin-bottom: 40px;
+  }
+}
+
   </style>
 </head>
 <body>
